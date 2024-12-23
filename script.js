@@ -7,9 +7,8 @@ const captureButton = document.getElementById('captureButton');
 // カメラ映像を取得
 async function startCamera() {
     try {
-    const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: true,
-        facingMode: 'environment'
+    const stream = await navigator.mediaDevices.getUserMedia({
+    video: { facingMode: { exact: "environment" } }
     });
     video.srcObject = stream;
     } catch (error) {
