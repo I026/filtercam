@@ -1,6 +1,6 @@
 {
-    "name": "Calculator",
-    "short_name": "Calculator",
+    "name": "FilterCam",
+    "short_name": "Cam",
     "theme_color": "#000000",
     "background_color": "#000000",
     "display": "fullscreen",
