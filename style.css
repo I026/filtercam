@@ -1,0 +1,16 @@
+body{
+    margin: 0;
+}
+video, canvas{
+    position: absolute;
+    display: block;
+    margin: 0;
+    width: 100vw;
+}
+#canvas{
+    opacity: 1;
+}
+#canvas2{
+    left: 100px;
+    opacity: .1;
+}
