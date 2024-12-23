@@ -71,7 +71,7 @@ function applyGrayscaleLevels() {
 // イベントリスナー
 setInterval(() => {
     applyGrayscaleLevels();
-}, 20);
+}, 50);
 
 // カメラを起動
 startCamera("environment");

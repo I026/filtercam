@@ -1,12 +1,18 @@
 body{
     margin: 0;
     width: 100vw;
+    background-color: black;
 }
 video, canvas{
     position: absolute;
     display: block;
     margin: 0;
+    object-fit: contain;
     width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #canvas{
     opacity: 1;
