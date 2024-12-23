@@ -4,12 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>カメラ映像の二値化</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="apple-touch-icon-180x180.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="android-chrome-192x192.png" sizes="192x192">
+    <title>FilterCam</title>
 </head>
 <body id="body">
     <video id="video" autoplay playsinline></video>
     <canvas id="canvas"></canvas>
     <canvas id="canvas2"></canvas>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+            .then((registration) => {
+            console.log('Service Worker registered with scope:', registration.scope);
+        })
+        .catch((error) => {
+            console.error('Service Worker registration failed:', error);
+        });
+        }   
+    </script>
 </body>
 </html>
 <script src="script.js"></script>
