@@ -3,16 +3,28 @@ const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const captureButton = document.getElementById('captureButton');
+let errorText;
 
 // カメラ映像を取得
-async function startCamera() {
+async function startCamera(facing) {
     try {
-    const stream = await navigator.mediaDevices.getUserMedia({
-    video: { facingMode: { exact: "environment" } }
+        const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: { exact: facing } }
     });
-    video.srcObject = stream;
+        video.srcObject = stream;
     } catch (error) {
-    console.error('カメラの起動に失敗しました:', error);
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+            video: true
+        });
+            video.srcObject = stream;
+        } catch (error) {
+            
+            console.error('カメラの起動に失敗しました:', error);
+            alert("カメラが存在しないようです｡");
+            errorText = "CammeraNot";
+            
+        }
     }
 }
 
@@ -62,7 +74,7 @@ setInterval(() => {
 }, 20);
 
 // カメラを起動
-startCamera();
+startCamera("environment");
 
 body.addEventListener('click', () => {
     // Canvasの内容をデータURLに変換
@@ -88,6 +100,51 @@ body.addEventListener('click', () => {
     link.href = dataURL;
     link.download = formattedDate; // 保存するファイル名
 
+    if (!(errorText == "CammeraNot")) {
     // リンクをクリックしてダウンロードを実行
     link.click();
+    };
+});
+
+const swipeArea = document.getElementById('body');
+    let startX = 0;
+    let startY = 0;
+    let isSwiping = false;
+
+    // タッチ開始時
+    swipeArea.addEventListener('touchstart', (e) => {
+      const touch = e.touches[0];
+      startX = touch.clientX;
+      startY = touch.clientY;
+      isSwiping = true;
+    });
+
+    // タッチ移動時
+    swipeArea.addEventListener('touchmove', (e) => {
+      if (!isSwiping) return;
+
+      const touch = e.touches[0];
+      const diffX = touch.clientX - startX;
+      const diffY = touch.clientY - startY;
+
+      // 縦方向の動きが大きい場合はスワイプとして処理しない
+      if (Math.abs(diffY) > Math.abs(diffX)) {
+        isSwiping = false;
+      }
+    });
+
+    // タッチ終了時
+    swipeArea.addEventListener('touchend', (e) => {
+      if (!isSwiping) return;
+
+      const touch = e.changedTouches[0];
+      const diffX = touch.clientX - startX;
+
+      if (diffX > 50) {
+        startCamera("environment");
+      } else if (diffX < -50) {
+        startCamera("front");
+      }
+
+      isSwiping = false;
 });
